@@ -18,7 +18,10 @@ public class Spaceship : MonoBehaviour
     [SerializeField] Collider2D shipCollider2D;
     [SerializeField] float invincibilityTime = 2;
     [SerializeField] int invincibilityFlickCount = 50;
- 
+    [SerializeField] Animator animator;
+
+
+
     InputAction _moveForward;
     InputAction _turn;
     Vector2 _movementVector;
@@ -33,6 +36,10 @@ public class Spaceship : MonoBehaviour
 
         if (TouchControl == null)
             TouchControl = GetComponent<TouchControl>();
+
+        if (animator == null)
+            animator = GetComponent<Animator>();
+
 
     }
 
@@ -64,13 +71,15 @@ public class Spaceship : MonoBehaviour
     void Die()
     {
         Debug.Log("Au");
-        
+
         //gameObject.SetActive(false);
+
+        animator.SetBool("IsAlive", false);
 
         transform.position = Vector3.zero;
         transform.rotation = Quaternion.identity;
         _movementVector = Vector3.zero;
-        MakeInvincible();
+        //MakeInvincible();
 
         AsteriodsGameManager.SpaceshipDied(this);
         
